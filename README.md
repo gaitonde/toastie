@@ -1,4 +1,4 @@
-# template-1
+# Toastie Clone
 Template for rapid fire AI apps
 
 # Background
