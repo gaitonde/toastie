@@ -40,7 +40,7 @@ export default function StoriesInfo() {
             marginBottom: '1rem',
             lineHeight: '1.5'
           }}>
-            In this part, we'd love for you to share a few stories for the speech. Make sure each story has a beginning, middle, and end.
+            In this part, wed love for you to share a few stories for the speech. Make sure each story has a beginning, middle, and end.
           </p>
           <p style={{
             fontSize: '1rem',

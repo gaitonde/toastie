@@ -14,7 +14,6 @@ const speechTypes = [
 
 export default function WeddingSpeech() {
   const [step, setStep] = useState(0)
-  const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [speechType, setSpeechType] = useState('')
 
@@ -28,7 +27,7 @@ export default function WeddingSpeech() {
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4 text-black">Toastie</h1>
             <p className="text-xl mb-8 text-black">
-              We're excited to help you create a memorable speech! Let's start by
+              Were excited to help you create a memorable speech! Lets start by
               completing a few questions to personalize your speech.
             </p>
             <p className="mb-8 text-black">20 Questions</p>
@@ -65,7 +64,7 @@ export default function WeddingSpeech() {
         {step === 2 && (
           <div>
             <h2 className="text-2xl font-semibold mb-4 text-black">
-              What's the email address for sending over your speech?*
+              Whats the email address for sending over your speech?*
             </h2>
             <Input
               type="email"

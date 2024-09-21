@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { InputTextCard } from '@/components/input-text-card';
-import { MultipleChoiceCard } from '@/components/multiple-choice-card';
 
 const Wizard = () => {
   const router = useRouter();

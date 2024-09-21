@@ -66,7 +66,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-2xl font-semibold text-[#3c4a3e] mb-2">3. Deliver Your Speech</h3>
               <p className="text-[#3c4a3e]">
-                Practice and deliver your speech with confidence! You'll be sure to make a lasting impression on the special day.
+                Practice and deliver your speech with confidence! You&apos;ll be sure to make a lasting impression on the special day.
               </p>
             </div>
           </div>

@@ -13,6 +13,7 @@ interface MultipleChoiceCardProps {
 
 export function MultipleChoiceCard({ title, subTitle, isRequired = false, relations, onNext, onPrevious }: MultipleChoiceCardProps) {
   // Validate that relations has at least one item
+  console.log('subTitle', subTitle);
   if (!relations || relations.length === 0) {
     throw new Error("At least one relation must be provided.");
   }

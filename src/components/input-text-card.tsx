@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface InputTextCardProps {
   title: string;
@@ -19,6 +18,15 @@ export function InputTextCard({ title, subTitle, isRequired = false, placeholder
   const [isError, setIsError] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const handleNextClick = useCallback(() => {
+    if (isRequired && inputValue.trim() === '') {
+      setIsError(true)
+    } else {
+      setIsError(false)
+      onNext(inputValue);
+    }
+  }, [isRequired, inputValue, onNext]);
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus()
@@ -35,16 +43,7 @@ export function InputTextCard({ title, subTitle, isRequired = false, placeholder
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [inputValue]); // Add inputValue to the dependency array
-
-  const handleNextClick = () => {
-    if (isRequired && inputValue.trim() === '') {
-      setIsError(true)
-    } else {
-      setIsError(false)
-      onNext(inputValue);
-    }
-  }
+  }, [handleNextClick]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
