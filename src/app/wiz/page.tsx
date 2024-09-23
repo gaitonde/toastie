@@ -1,18 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { InputTextCard, InputTextCardProps } from '@/components/input-text-card';
-import { MultipleChoiceCard, MultipleChoiceCardProps } from "@/components/multiple-choice-card";
+import { useRouter } from 'next/navigation';
+import { InputTextCard } from "@/components/input-text-card";
+import { MultipleChoiceCard } from "@/components/multiple-choice-card";
 
-type CardType = 'input' | 'multipleChoice';
+type CommonProps = {
+  title: string;
+  isRequired?: boolean;
+  value: string | string[];
+  onNext: (value: string | string[]) => void;
+  onPrevious: () => void;
+};
 
-interface WizardCard {
-  type: CardType;
-  props: Omit<InputTextCardProps | MultipleChoiceCardProps, 'onNext' | 'onPrevious' | 'value'> & { relations?: string[] };
-  key: string;
-}
+export type InputTextCardProps = CommonProps & {
+  placeholder?: string;
+};
 
-const wizardCards: WizardCard[] = [
+export type MultipleChoiceCardProps = CommonProps & {
+  relations: string[];
+};
+
+const wizardCards =[
   {
     type: 'input',
     key: 'firstName',
@@ -66,10 +75,11 @@ const wizardCards: WizardCard[] = [
 ];
 
 const Wizard = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, string | string[]>>({});
 
-  const handleNext = (value: string | string[]) => {
+  const handleNext = async (value: string | string[]) => {
     const currentCard = wizardCards[currentStep];
 
     setFormData(prevData => {
@@ -83,6 +93,29 @@ const Wizard = () => {
       setCurrentStep(currentStep + 1);
     } else {
       console.log('Final form data:', formData);
+
+      // Make API call to generate speech
+      try {
+        const response = await fetch('/api/generate-speech', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: formData }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate speech');
+        }
+
+        const result = await response.json();
+
+        // Redirect to results page with the generated speech data
+        router.push(`/results?speech=${result.speech}`);
+      } catch (error) {
+        console.error('Error generating speech:', error);
+        // Handle error (e.g., show error message to user)
+      }
     }
   };
 

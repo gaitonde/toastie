@@ -10,10 +10,9 @@ export interface MultipleChoiceCardProps {
   onPrevious: () => void;
   relations: string[];
   value: string | string[]; // Added value prop
-  placeholder?: string; // Added placeholder prop
 }
 
-export function MultipleChoiceCard({ title, subTitle, isRequired = false, relations, onNext, onPrevious, value, placeholder }: MultipleChoiceCardProps) {
+export function MultipleChoiceCard({ title, subTitle, isRequired = false, relations, onNext, onPrevious, value }: MultipleChoiceCardProps) {
   // Validate that relations has at least one item
 
   if (!relations || relations.length === 0) {
@@ -50,9 +49,17 @@ export function MultipleChoiceCard({ title, subTitle, isRequired = false, relati
     <div className="flex items-center justify-center bg-[#FAF7F2] p-4">
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
-          <h1 className={`text-2xl mb-4 text-center ${isError ? 'text-red-500' : 'text-gray-800'}`}>
+          <h2 className={`text-2xl mb-4 text-center ${isError ? 'text-red-500' : 'text-gray-800'}`}>
             {title}{isRequired && <span className="text-red-500">*</span>}
-          </h1>
+          </h2>
+          <p style={{
+            fontSize: '1rem',
+            color: '#666',
+            marginBottom: '1rem',
+            textAlign: 'center'
+          }}>
+            {subTitle}
+          </p>
 
           <div className="grid grid-cols-2 gap-2">
             {relations.map((relation) => (
