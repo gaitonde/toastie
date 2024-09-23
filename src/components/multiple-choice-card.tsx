@@ -2,37 +2,47 @@
 
 import { useState } from 'react';
 
-interface MultipleChoiceCardProps {
+export interface MultipleChoiceCardProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
-  onNext: () => void;
+  onNext: (value: string | string[]) => void; // Changed to accept a string
   onPrevious: () => void;
   relations: string[];
+  value: string | string[]; // Added value prop
+  placeholder?: string; // Added placeholder prop
 }
 
-export function MultipleChoiceCard({ title, subTitle, isRequired = false, relations, onNext, onPrevious }: MultipleChoiceCardProps) {
+export function MultipleChoiceCard({ title, subTitle, isRequired = false, relations, onNext, onPrevious, value, placeholder }: MultipleChoiceCardProps) {
   // Validate that relations has at least one item
-  console.log('subTitle', subTitle);
+
   if (!relations || relations.length === 0) {
     throw new Error("At least one relation must be provided.");
   }
 
-  const [selectedRelation, setSelectedRelation] = useState<string | null>(null)
+  console.log('XXX relations', relations);
+
+  const [selectedRelation, setSelectedRelation] = useState<string | string[]>(value)
+
   const [isError, setIsError] = useState(false)
 
   const handleRelationSelect = (relation: string) => {
-    setSelectedRelation(relation)
-    setIsError(false)
-    handleNextClick()
+    console.log('XXX relation', relation)
+    if (relation) {
+      setSelectedRelation(relation)
+      setIsError(false)
+      // Automatically move to the next card
+      onNext(relation)
+    }
   }
 
   const handleNextClick = () => {
-    if (isRequired && selectedRelation === null) {
+    if (isRequired && !selectedRelation) {
       setIsError(true)
     } else {
+      console.log('XXX handleNextClick: ', selectedRelation)
       setIsError(false)
-      onNext()
+      onNext(selectedRelation as string)
     }
   }
 

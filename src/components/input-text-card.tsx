@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-interface InputTextCardProps {
+export interface InputTextCardProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
   placeholder?: string;
   caption?: string;
-  value: string; // Add this line
+  value: string;
   onNext: (str: string) => void;
   onPrevious: () => void;
 }
@@ -22,8 +22,10 @@ export function InputTextCard({ title, subTitle, isRequired = false, placeholder
     if (isRequired && inputValue.trim() === '') {
       setIsError(true)
     } else {
-      setIsError(false)
-      onNext(inputValue);
+      setIsError(false);
+      const val = inputValue;
+      setInputValue('');
+      onNext(val);
     }
   }, [isRequired, inputValue, onNext]);
 
@@ -44,6 +46,14 @@ export function InputTextCard({ title, subTitle, isRequired = false, placeholder
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleNextClick]);
+
+  // Update inputValue and inputRef when value prop changes
+  useEffect(() => {
+    setInputValue(value);
+    if (inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
